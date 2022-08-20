@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "kz.ali.alarmclock"
-        minSdk 22
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -33,7 +33,8 @@ android {
 }
 
 ext{
-    swiperefreshlayout_version = '1.1.0'
+    gson_version = '2.9.1'
+    lifecycle_version = '2.4.1'
 }
 
 dependencies {
@@ -46,6 +47,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    //SwipeRefreshLayout
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version"
+    //Gson
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 }

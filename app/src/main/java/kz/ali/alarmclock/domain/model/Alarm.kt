@@ -5,14 +5,14 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Alarm(
-    private val id: Int,
-    private var alarmName: String? = null,
-    private var ringtone: String,
-    private var alarmTime: String,
-    private var alarmDays: List<Days>,
-    private var vibration: Boolean = true,
-    private var snooze: Snooze? = null,
-    private var isActive: Boolean = false
+    val id: Int,
+    var name: String? = null,
+    var ringtone: String,
+    var time: String,
+    var days: List<Days>,
+    var vibration: Boolean = true,
+    var snooze: Snooze? = null,
+    var isActive: Boolean = false
 ) : Parcelable {
 
     enum class Days {
@@ -38,7 +38,7 @@ data class Alarm(
             THIRTY
         }
 
-        enum class Repeat{
+        enum class Repeat {
             THREE,
             FIVE,
             FOREVER
