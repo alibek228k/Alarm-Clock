@@ -11,8 +11,8 @@
         android:id="@+id/hours"
         android:layout_width="75dp"
         android:layout_height="255dp"
-        android:orientation="vertical"
         android:layout_marginTop="15dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/materialTextView"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
@@ -22,8 +22,11 @@
         android:id="@+id/materialTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
         android:layout_marginTop="104dp"
+        android:fontFamily="@font/heebo_light"
         android:text=":"
+        android:textColor="@color/fontColor"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,8 +36,8 @@
         android:id="@+id/minutes"
         android:layout_width="72dp"
         android:layout_height="255dp"
-        android:orientation="vertical"
         android:layout_marginTop="15dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toEndOf="@+id/materialTextView"
         app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="5"
@@ -43,26 +46,384 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="0dp"
+        app:cardMaxElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toTopOf="@+id/cancelButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:cardElevation="0dp"
-        app:cardMaxElevation="0dp"
-        app:cardCornerRadius="25dp"
-        app:cardUseCompatPadding="true"
-        app:cardPreventCornerOverlap="false">
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/daysText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/heebo_light"
+                        android:text="@string/every_day"
+                        android:textColor="@color/fontColor"
+                        android:textSize="15sp" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="3dp"
+                        android:src="@drawable/ic_calendar" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/sundayCheckbox"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.9dp"
+                            android:text="S" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/mondayCheckbox"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.9dp"
+                            android:text="m" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/tuesdayCheckbox"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.9dp"
+                            android:padding="0dp"
+                            android:text="T" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/wednesdayCheckbox"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.8dp"
+                            android:text="W" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/thursdayCheckbox"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.8dp"
+                            android:text="T" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/fridayCheckbox"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.8dp"
+                            android:text="F" />
+
+                        <com.google.android.material.checkbox.MaterialCheckBox
+                            android:id="@+id/saturdayCheckbox"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:text="S" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/sundayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.9dp"
+                            android:padding="0dp"
+                            android:text="S"
+                            android:textColor="@color/red" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/mondayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.9dp"
+                            android:padding="0dp"
+                            android:text="m"
+                            android:textColor="@color/fontColor" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tuesdayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.9dp"
+                            android:padding="0dp"
+                            android:text="T"
+                            android:textColor="@color/fontColor" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/wednesdayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.8dp"
+                            android:padding="0dp"
+                            android:text="W"
+                            android:textColor="@color/fontColor" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/thursdayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.8dp"
+                            android:padding="0dp"
+                            android:text="T"
+                            android:textColor="@color/fontColor" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/fridayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="24.8dp"
+                            android:padding="0dp"
+                            android:text="F"
+                            android:textColor="@color/fontColor" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/saturdayTextView"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="0dp"
+                            android:text="S"
+                            android:textColor="@color/fontColor" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/alarmName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="15dp"
+                    android:maxLines="1"
+                    android:hint="Alarm Name"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/alarm_sound"
+                            android:textSize="18sp"
+                            android:textColor="@color/fontColor"
+                            android:layout_marginBottom="3dp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/soundName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="@color/purple_500"
+                            android:text="Sunlight"
+                            tools:text="Sunlight"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/border_color" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/alarmSoundSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="400dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/border_color" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/vibration"
+                            android:textSize="18sp"
+                            android:textColor="@color/fontColor"
+                            android:layout_marginBottom="3dp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/vibrationName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="@color/purple_500"
+                            android:text="Basic call"
+                            tools:text="Sunlight"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/border_color" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/vibrationSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="400dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/border_color" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/alarm_sound"
+                            android:textSize="18sp"
+                            android:textColor="@color/fontColor"
+                            android:layout_marginBottom="3dp"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/snoozeVolume"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="@color/purple_500"
+                            android:text="Sunlight"
+                            tools:text="Sunlight"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@color/border_color" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/snoozeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancelButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:text="@string/cancel"
+        android:textAllCaps="false"
         android:textColor="@color/purple_200"
         android:textSize="20sp"
-        android:textAllCaps="false"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/saveButton" />
@@ -71,11 +432,11 @@
         android:id="@+id/saveButton"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="200dp"
-        android:layout_marginEnd="6dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
         android:text="@string/save"
-        android:textColor="@color/purple_200"
         android:textAllCaps="false"
+        android:textColor="@color/purple_200"
         android:textSize="20sp"
         app:cornerRadius="100dp"
         app:layout_constraintBottom_toBottomOf="parent"

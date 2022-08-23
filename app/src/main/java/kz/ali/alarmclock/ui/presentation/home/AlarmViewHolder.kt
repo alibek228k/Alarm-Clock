@@ -47,7 +47,7 @@ class AlarmViewHolder(
             setupSwitchButton(isActive)
         }
         itemView.setOnClickListener {
-            callback.onItemClicked()
+            callback.onItemClicked(alarm)
         }
 
         buttonSwitch.setOnCheckedChangeListener { _, p1 ->
@@ -142,8 +142,8 @@ class AlarmViewHolder(
 
     private fun setupSwitchButton(isChecked: Boolean) {
         if (isChecked) {
-            alarmTime.setTextColor(itemView.resources.getColor(R.color.black, null))
-            title.setTextColor(itemView.resources.getColor(R.color.black, null))
+            alarmTime.setTextColor(itemView.resources.getColor(R.color.fontColor, null))
+            title.setTextColor(itemView.resources.getColor(R.color.fontColor, null))
             if (activeDays["MONDAY"] == true) {
                 alarmDaysMonday.setTextColor(itemView.resources.getColor(R.color.purple_200, null))
             }

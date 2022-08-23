@@ -79,10 +79,10 @@ class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
                 "15:00",
                 listOf(
                     Alarm.Days.THURSDAY,
-                    Alarm.Days.FRIDAY,
+//                    Alarm.Days.FRIDAY,
                     Alarm.Days.SATURDAY,
-                    Alarm.Days.SUNDAY,
-                    Alarm.Days.MONDAY,
+//                    Alarm.Days.SUNDAY,
+//                    Alarm.Days.MONDAY,
                     Alarm.Days.TUESDAY,
                     Alarm.Days.WEDNESDAY
                 ),
@@ -99,8 +99,8 @@ class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
         viewModel?.saveAlarms(adapter?.getAlarms())
     }
 
-    override fun onItemClicked() {
-
+    override fun onItemClicked(alarm: Alarm) {
+        startActivity(CreateAlarmActivity.newInstance(this, alarm))
     }
 
     override fun onCheckedStateChanged() {

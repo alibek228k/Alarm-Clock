@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:text="00"
     android:textSize="50sp"
-    android:gravity="center">
+    android:gravity="center"
+    android:fontFamily="@font/heebo_light"
+    android:textColor="@color/fontColor">
 
 </com.google.android.material.textview.MaterialTextView>

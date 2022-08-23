@@ -63,7 +63,7 @@ class AlarmsAdapter(
     }
 
     interface Callback {
-        fun onItemClicked()
+        fun onItemClicked(alarm: Alarm)
         fun onCheckedStateChanged()
     }
 }

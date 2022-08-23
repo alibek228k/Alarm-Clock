@@ -49,14 +49,17 @@
                     android:layout_height="wrap_content"
                     android:text="@string/alarm_in"
                     android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="30sp"/>
+                    android:fontFamily="@font/heebo_light"
+                    android:textColor="@color/fontColor"
+                    android:layout_marginHorizontal="16dp"
+                    android:textSize="33sp"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/random_date"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:fontFamily="@font/heebo_light"/>
 
             </LinearLayout>
 

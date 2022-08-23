@@ -26,13 +26,15 @@
             android:layout_alignParentStart="true"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginStart="20dp"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                android:textSize="30sp"
+                android:fontFamily="@font/heebo_light"
                 tools:text="@string/random_time" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -40,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
+                android:fontFamily="@font/heebo_light"
                 tools:text="@string/alarm_name" />
 
         </LinearLayout>
@@ -47,86 +50,92 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginStart="200dp"
-            android:layout_marginHorizontal="@dimen/margin_horizontal">
+            android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysMonday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="5dp"
                 android:text="M"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysTuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="5dp"
                 android:text="T"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysWednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="5dp"
                 android:text="W"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysThursday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="5dp"
                 android:text="T"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysFriday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="5dp"
                 android:text="F"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysSaturday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="5dp"
                 android:text="S"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysSunday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="15dp"
                 android:text="S"
-                tools:visibility="gone"/>
+                android:textSize="15sp"
+                tools:visibility="gone" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/alarmDaysEveryDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
                 android:layout_marginEnd="15dp"
+                android:fontFamily="@font/heebo_light"
                 android:text="@string/every_day"
                 android:textColor="@color/purple_200"
+                android:textSize="15sp"
                 android:visibility="gone"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/buttonSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style=""
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
         </LinearLayout>
 
