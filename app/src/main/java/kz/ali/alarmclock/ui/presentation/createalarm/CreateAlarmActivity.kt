@@ -46,7 +46,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
     private var selectedDays = mutableListOf<Alarm.Days>()
 
     //Observer pattern
-    private val observer: Observer? = null
+    private var observer: ObserverImp? = null
 
     companion object {
         const val KEY = "KEY"
@@ -83,6 +83,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         daysText = findViewById(R.id.daysText)
 
         alarm = intent.getParcelableExtra(KEY)
+        observer = ObserverImp(this)
 
 
         setupCancelButton()
@@ -173,70 +174,93 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
                 }
             }
         }
-        setupClickListenersForButtons()
 
-        onCheckedChanged(mondayCheckbox, mondayTextView)
-        onCheckedChanged(tuesdayCheckbox, tuesdayTextView)
-        onCheckedChanged(wednesdayCheckbox, wednesdayTextView)
-        onCheckedChanged(thursdayCheckbox, thursdayTextView)
-        onCheckedChanged(fridayCheckbox, fridayTextView)
-        onCheckedChanged(saturdayCheckbox, saturdayTextView)
-        onCheckedChanged(sundayCheckbox, sundayTextView, true)
+        observer?.useNotification()
+        onCheckedChanged(mondayCheckbox, mondayTextView, dayOfWeek = Alarm.Days.MONDAY)
+        onCheckedChanged(tuesdayCheckbox, tuesdayTextView, dayOfWeek = Alarm.Days.TUESDAY)
+        onCheckedChanged(wednesdayCheckbox, wednesdayTextView, dayOfWeek = Alarm.Days.WEDNESDAY)
+        onCheckedChanged(thursdayCheckbox, thursdayTextView, dayOfWeek = Alarm.Days.THURSDAY)
+        onCheckedChanged(fridayCheckbox, fridayTextView, dayOfWeek = Alarm.Days.FRIDAY)
+        onCheckedChanged(saturdayCheckbox, saturdayTextView, dayOfWeek = Alarm.Days.SATURDAY)
+        onCheckedChanged(sundayCheckbox, sundayTextView, true, dayOfWeek = Alarm.Days.SUNDAY)
     }
 
     private fun onCheckedChanged(
         checkBox: MaterialCheckBox?,
         textView: MaterialTextView?,
         isSunday: Boolean = false,
+        dayOfWeek: Alarm.Days
     ) {
         checkBox?.setOnCheckedChangeListener { _, isChecked ->
+
             if (isChecked) {
                 textView?.setTextColor(resources.getColor(R.color.purple_500, null))
+                observer?.useNotification(dayOfWeek, true)
             } else {
                 if (isSunday) textView?.setTextColor(resources.getColor(R.color.red,
                     null)) else textView?.setTextColor(resources.getColor(R.color.fontColor, null))
+                observer?.useNotification(dayOfWeek)
             }
         }
     }
 
-    private fun setupClickListenersForButtons() {
-//        mondayTextView?.setOnClickListener {
-//            mondayTextView = MaterialButton(ContextThemeWrapper(this, R.style.ButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.MONDAY)
-//        }
-//        tuesdayTextView?.setOnClickListener {
-//            tuesdayTextView = MaterialButton(ContextThemeWrapper(this, R.style.ButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.TUESDAY)
-//        }
-//        wednesdayTextView?.setOnClickListener {
-//            wednesdayTextView = MaterialButton(ContextThemeWrapper(this, R.style.ButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.WEDNESDAY)
-//        }
-//        thursdayTextView?.setOnClickListener {
-//            thursdayTextView = MaterialButton(ContextThemeWrapper(this, R.style.ButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.THURSDAY)
-//        }
-//        fridayTextView?.setOnClickListener {
-//            fridayTextView = MaterialButton(ContextThemeWrapper(this, R.style.ButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.FRIDAY)
-//        }
-//        saturdayTextView?.setOnClickListener {
-//            saturdayTextView = MaterialButton(ContextThemeWrapper(this, R.style.ButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.SATURDAY)
-//        }
-//        sundayTextView?.setOnClickListener {
-//            sundayTextView =
-//                MaterialButton(ContextThemeWrapper(this, R.style.SundayButtonWithoutCircle))
-//            observer?.notify(Alarm.Days.SUNDAY)
-//        }
+    override fun notify(day: Alarm.Days?, shouldAdd: Boolean) {
+        if (day != null){
+            if (shouldAdd){
+                if (!selectedDays.contains(day)) {
+                    selectedDays.add(day)
+                }
+            }else{
+                if (selectedDays.contains(day)) {
+                    selectedDays.remove(day)
+                }
+            }
+        }
+        println("SOmething is wrog ${selectedDays.size}")
+        var every = "Every"
+        when (selectedDays.size) {
+            7 -> {
+                daysText?.text = "$every day"
+            }
+            0 -> {
+                daysText?.text = getString(R.string.alarms_are_off)
+            }
+            else -> {
+                if (selectedDays.contains(Alarm.Days.MONDAY)){
+                    every = "$every Mon,"
+                }
+                if (selectedDays.contains(Alarm.Days.TUESDAY)){
+                    every = "$every Tue,"
+                }
+                if (selectedDays.contains(Alarm.Days.WEDNESDAY)){
+                    every = "$every Wed,"
+                }
+                if (selectedDays.contains(Alarm.Days.THURSDAY)){
+                    every = "$every Thu,"
+                }
+                if (selectedDays.contains(Alarm.Days.FRIDAY)){
+                    every = "$every Fri,"
+                }
+                if (selectedDays.contains(Alarm.Days.SATURDAY)){
+                    every = "$every Sat,"
+                }
+                if (selectedDays.contains(Alarm.Days.SUNDAY)){
+                    every = "$every Sun"
+                }
+                every = every.removeLastCharacter()
+                daysText?.text = every
+            }
+        }
     }
 
-    override fun notify(day: Alarm.Days) {
-        if (!selectedDays.contains(day)) {
-            selectedDays.add(day)
+    private fun String.removeLastCharacter(): String{
+        var str = this
+        if (str[str.length-1] == ','){
+            println("dsadas: $str")
+            str = str.dropLast(1)
+            println("dsadas: $str")
+            return str
         }
-        if (selectedDays.size == 7) {
-            daysText?.text = getString(R.string.every_day)
-        }
+        return str
     }
 }

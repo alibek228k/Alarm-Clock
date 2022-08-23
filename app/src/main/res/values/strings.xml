@@ -14,4 +14,5 @@
     <string name="save">Save</string>
     <string name="alarm_sound">Alarm sound</string>
     <string name="vibration">Vibration</string>
+    <string name="alarms_are_off">All alarms are off</string>
 </resources>

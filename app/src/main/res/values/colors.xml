@@ -9,7 +9,7 @@
     <color name="fontColor">#252525</color>
     <color name="white">#FFFFFFFF</color>
     <color name="disabled_state_color">#838383</color>
-    <color name="ghost_white">#EFEFEF</color>
+    <color name="ghost_white">#f2f2f2</color>
     <color name="red">#FF0000</color>
     <color name="border_color">#D6D6D6</color>
 </resources>
