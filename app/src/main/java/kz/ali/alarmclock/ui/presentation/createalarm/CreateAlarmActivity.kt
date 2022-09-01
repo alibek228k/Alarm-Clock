@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
@@ -11,7 +12,10 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.android.material.textview.MaterialTextView
 import kz.ali.alarmclock.R
 import kz.ali.alarmclock.domain.model.Alarm
+import kz.ali.alarmclock.ui.presentation.alarmsound.AlarmSoundActivity
 import kz.ali.alarmclock.ui.presentation.createalarm.itemdecoration.NumbersPickerItemDecorator
+import kz.ali.alarmclock.ui.presentation.snooze.SnoozeActivity
+import kz.ali.alarmclock.ui.presentation.vibration.VibrationActivity
 
 class CreateAlarmActivity : AppCompatActivity(), Observer {
 
@@ -35,6 +39,9 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
     private var saturdayCheckbox: MaterialCheckBox? = null
     private var sundayCheckbox: MaterialCheckBox? = null
     private var daysText: MaterialTextView? = null
+    private var snoozeButton: RelativeLayout? = null
+    private var alarmSoundButton: RelativeLayout? = null
+    private var vibrationVibration: RelativeLayout? = null
 
     //RecyclerView adapters
 
@@ -81,6 +88,9 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         saturdayCheckbox = findViewById(R.id.saturdayCheckbox)
         sundayCheckbox = findViewById(R.id.sundayCheckbox)
         daysText = findViewById(R.id.daysText)
+        alarmSoundButton = findViewById(R.id.alarmSoundButton)
+        vibrationVibration = findViewById(R.id.vibrationButton)
+        snoozeButton = findViewById(R.id.snoozeButton)
 
         alarm = intent.getParcelableExtra(KEY)
         observer = ObserverImp(this)
@@ -89,6 +99,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         setupCancelButton()
         setupViewPagers()
         setupAlarmDaysButtons()
+        setupButtons()
 
     }
 
@@ -149,7 +160,12 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
                         tuesdayCheckbox?.isChecked = true
                     }
                     Alarm.Days.WEDNESDAY -> {
-                        wednesdayTextView?.setTextColor(resources.getColor(R.color.purple_500, null))
+                        wednesdayTextView?.setTextColor(
+                            resources.getColor(
+                                R.color.purple_500,
+                                null
+                            )
+                        )
                         wednesdayCheckbox?.isChecked = true
                     }
                     Alarm.Days.THURSDAY -> {
@@ -197,26 +213,50 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
                 textView?.setTextColor(resources.getColor(R.color.purple_500, null))
                 observer?.useNotification(dayOfWeek, true)
             } else {
-                if (isSunday) textView?.setTextColor(resources.getColor(R.color.red,
-                    null)) else textView?.setTextColor(resources.getColor(R.color.fontColor, null))
+                if (isSunday) textView?.setTextColor(
+                    resources.getColor(
+                        R.color.red,
+                        null
+                    )
+                ) else textView?.setTextColor(resources.getColor(R.color.fontColor, null))
                 observer?.useNotification(dayOfWeek)
             }
         }
     }
 
+    private fun String.removeLastCharacter(): String {
+        var str = this
+        if (str[str.length - 1] == ',') {
+            str = str.dropLast(1)
+            return str
+        }
+        return str
+    }
+
+    private fun setupButtons(){
+        alarmSoundButton?.setOnClickListener{
+            startActivity(AlarmSoundActivity.newInstance(this))
+        }
+        snoozeButton?.setOnClickListener{
+            startActivity(SnoozeActivity.newInstance(this))
+        }
+        vibrationVibration?.setOnClickListener{
+            startActivity(VibrationActivity.newInstance(this))
+        }
+    }
+
     override fun notify(day: Alarm.Days?, shouldAdd: Boolean) {
-        if (day != null){
-            if (shouldAdd){
+        if (day != null) {
+            if (shouldAdd) {
                 if (!selectedDays.contains(day)) {
                     selectedDays.add(day)
                 }
-            }else{
+            } else {
                 if (selectedDays.contains(day)) {
                     selectedDays.remove(day)
                 }
             }
         }
-        println("SOmething is wrog ${selectedDays.size}")
         var every = "Every"
         when (selectedDays.size) {
             7 -> {
@@ -226,25 +266,25 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
                 daysText?.text = getString(R.string.alarms_are_off)
             }
             else -> {
-                if (selectedDays.contains(Alarm.Days.MONDAY)){
+                if (selectedDays.contains(Alarm.Days.MONDAY)) {
                     every = "$every Mon,"
                 }
-                if (selectedDays.contains(Alarm.Days.TUESDAY)){
+                if (selectedDays.contains(Alarm.Days.TUESDAY)) {
                     every = "$every Tue,"
                 }
-                if (selectedDays.contains(Alarm.Days.WEDNESDAY)){
+                if (selectedDays.contains(Alarm.Days.WEDNESDAY)) {
                     every = "$every Wed,"
                 }
-                if (selectedDays.contains(Alarm.Days.THURSDAY)){
+                if (selectedDays.contains(Alarm.Days.THURSDAY)) {
                     every = "$every Thu,"
                 }
-                if (selectedDays.contains(Alarm.Days.FRIDAY)){
+                if (selectedDays.contains(Alarm.Days.FRIDAY)) {
                     every = "$every Fri,"
                 }
-                if (selectedDays.contains(Alarm.Days.SATURDAY)){
+                if (selectedDays.contains(Alarm.Days.SATURDAY)) {
                     every = "$every Sat,"
                 }
-                if (selectedDays.contains(Alarm.Days.SUNDAY)){
+                if (selectedDays.contains(Alarm.Days.SUNDAY)) {
                     every = "$every Sun"
                 }
                 every = every.removeLastCharacter()
@@ -253,14 +293,4 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         }
     }
 
-    private fun String.removeLastCharacter(): String{
-        var str = this
-        if (str[str.length-1] == ','){
-            println("dsadas: $str")
-            str = str.dropLast(1)
-            println("dsadas: $str")
-            return str
-        }
-        return str
-    }
 }

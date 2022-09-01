@@ -241,8 +241,13 @@
                     android:hint="Alarm Name"/>
 
                 <RelativeLayout
+                    android:id="@+id/alarmSoundButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -299,8 +304,12 @@
                     android:background="@color/border_color" />
 
                 <RelativeLayout
+                    android:id="@+id/vibrationButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -358,9 +367,13 @@
                     android:background="@color/border_color" />
 
                 <RelativeLayout
+                    android:id="@+id/snoozeButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp">
+                    android:layout_marginBottom="15dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -370,7 +383,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/alarm_sound"
+                            android:text="@string/snooze"
                             android:textSize="18sp"
                             android:textColor="@color/fontColor"
                             android:layout_marginBottom="3dp"/>
@@ -381,7 +394,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:textColor="@color/purple_500"
-                            android:text="Sunlight"
+                            android:text="@string/snooze_volume"
                             tools:text="Sunlight"/>
 
                     </LinearLayout>
