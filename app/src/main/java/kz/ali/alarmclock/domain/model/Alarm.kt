@@ -12,7 +12,7 @@ data class Alarm(
     var days: List<Days>,
     var vibration: Boolean = true,
     var snooze: Snooze? = null,
-    var isActive: Boolean = false
+    var isActive: Boolean = false,
 ) : Parcelable {
 
     enum class Days {
@@ -28,7 +28,7 @@ data class Alarm(
     @Parcelize
     data class Snooze(
         private var interval: Interval,
-        private var repeat: Repeat
+        private var repeat: Repeat,
     ) : Parcelable {
 
         enum class Interval {

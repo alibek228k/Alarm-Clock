@@ -7,9 +7,9 @@ interface Observer {
 }
 
 class ObserverImp(
-    private val observer: Observer
-){
-    fun useNotification(day: Alarm.Days? = null, shouldAdd: Boolean = false){
+    private val observer: Observer,
+) {
+    fun useNotification(day: Alarm.Days? = null, shouldAdd: Boolean = false) {
         observer.notify(day, shouldAdd)
     }
 }

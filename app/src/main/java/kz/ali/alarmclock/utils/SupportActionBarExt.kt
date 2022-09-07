@@ -14,7 +14,7 @@ inline fun Fragment.setupActionBar(
     subtitle: String? = null,
     @StringRes titleResId: Int? = null,
     @StringRes subtitleResId: Int? = null,
-    crossinline onNavigationClickAction: (view: View) -> Unit
+    crossinline onNavigationClickAction: (view: View) -> Unit,
 ): Boolean {
     if (toolbar == null) return false
     val activity = activity
@@ -39,7 +39,7 @@ inline fun AppCompatActivity.setupActionBar(
     subtitle: String? = null,
     @StringRes titleResId: Int? = null,
     @StringRes subtitleResId: Int? = null,
-    crossinline onNavigationClickAction: (view: View) -> Unit
+    crossinline onNavigationClickAction: (view: View) -> Unit,
 ): Boolean {
     return if (supportActionBar is WindowDecorActionBar) {
         toolbar.setNavigationOnClickListener {

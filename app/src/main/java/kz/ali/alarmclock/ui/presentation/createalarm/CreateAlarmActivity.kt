@@ -3,7 +3,6 @@ package kz.ali.alarmclock.ui.presentation.createalarm
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -208,7 +207,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         checkBox: MaterialCheckBox?,
         textView: MaterialTextView?,
         isSunday: Boolean = false,
-        dayOfWeek: Alarm.Days
+        dayOfWeek: Alarm.Days,
     ) {
         checkBox?.setOnCheckedChangeListener { _, isChecked ->
 
@@ -236,19 +235,19 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         return str
     }
 
-    private fun setupViews(){
-        alarmSoundButton?.setOnClickListener{
+    private fun setupViews() {
+        alarmSoundButton?.setOnClickListener {
             startActivity(AlarmSoundActivity.newInstance(this))
         }
-        snoozeButton?.setOnClickListener{
+        snoozeButton?.setOnClickListener {
             startActivity(SnoozeActivity.newInstance(this))
         }
-        vibrationVibration?.setOnClickListener{
+        vibrationVibration?.setOnClickListener {
             startActivity(VibrationActivity.newInstance(this))
         }
     }
 
-    private fun setupSaveButton(){
+    private fun setupSaveButton() {
         saveButton?.setOnClickListener {
 
         }

@@ -8,11 +8,12 @@ import com.google.android.material.textview.MaterialTextView
 import kz.ali.alarmclock.R
 
 class NumbersPickerAdapter(
-    size: Int
+    size: Int,
 ) : RecyclerView.Adapter<NumbersViewHolder>() {
 
     private val listOfFragments = createAList(size)
     private val newList = mutableListOf<Int>()
+
     init {
         newList.apply {
             add(listOfFragments.last())

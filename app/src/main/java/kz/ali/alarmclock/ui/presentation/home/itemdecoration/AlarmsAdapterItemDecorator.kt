@@ -8,14 +8,14 @@ import kz.ali.alarmclock.R
 
 class AlarmsAdapterItemDecorator(
     context: Context,
-    private val alarmsVerticalSpacing: Int = context.resources.getDimensionPixelOffset(R.dimen.alarms_vertical_spacing)
+    private val alarmsVerticalSpacing: Int = context.resources.getDimensionPixelOffset(R.dimen.alarms_vertical_spacing),
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         outRect.top = alarmsVerticalSpacing
         outRect.bottom = alarmsVerticalSpacing

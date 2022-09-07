@@ -8,7 +8,7 @@ import kz.ali.alarmclock.domain.model.Alarm
 import java.lang.reflect.Type
 
 class DatabaseHelper constructor(
-    private val context: Context
+    private val context: Context,
 ) {
     private var alarmsData: SharedPreferences? = null
     private val gson: Gson = Gson()

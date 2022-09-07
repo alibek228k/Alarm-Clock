@@ -15,7 +15,7 @@ class PickRingtone : ActivityResultContract<Int, Uri?>() {
 
 
     override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-        if (resultCode != Activity.RESULT_OK){
+        if (resultCode != Activity.RESULT_OK) {
             return null
         }
         return intent?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)

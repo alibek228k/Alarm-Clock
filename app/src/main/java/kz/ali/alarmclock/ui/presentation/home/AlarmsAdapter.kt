@@ -9,7 +9,7 @@ import kz.ali.alarmclock.domain.model.Alarm
 
 class AlarmsAdapter(
     private val context: Context,
-    private val callback: Callback
+    private val callback: Callback,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var alarms = mutableListOf<Alarm>()
 

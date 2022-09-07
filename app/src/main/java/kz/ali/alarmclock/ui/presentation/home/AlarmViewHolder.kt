@@ -10,7 +10,7 @@ import kz.ali.alarmclock.domain.model.Alarm
 
 class AlarmViewHolder(
     itemView: View,
-    private val callback: AlarmsAdapter.Callback
+    private val callback: AlarmsAdapter.Callback,
 ) : RecyclerView.ViewHolder(itemView) {
 
     private val activeDays = HashMap<String, Boolean>()

@@ -15,7 +15,6 @@ import kz.ali.alarmclock.domain.model.Alarm
 import kz.ali.alarmclock.ui.presentation.createalarm.CreateAlarmActivity
 import kz.ali.alarmclock.ui.presentation.home.itemdecoration.AlarmsAdapterItemDecorator
 import kz.ali.alarmclock.ui.presentation.home.vm.MainViewModel
-import java.text.FieldPosition
 
 class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
 
