@@ -17,4 +17,5 @@
     <string name="alarms_are_off">All alarms are off</string>
     <string name="snooze">Snooze</string>
     <string name="snooze_volume">5 minutes, 3 times</string>
+    <string name="ringtone">Ringtone</string>
 </resources>

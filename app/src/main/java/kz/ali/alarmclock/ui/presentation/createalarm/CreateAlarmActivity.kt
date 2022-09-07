@@ -1,9 +1,9 @@
 package kz.ali.alarmclock.ui.presentation.createalarm
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
@@ -14,6 +14,7 @@ import kz.ali.alarmclock.R
 import kz.ali.alarmclock.domain.model.Alarm
 import kz.ali.alarmclock.ui.presentation.alarmsound.AlarmSoundActivity
 import kz.ali.alarmclock.ui.presentation.createalarm.itemdecoration.NumbersPickerItemDecorator
+import kz.ali.alarmclock.ui.presentation.createalarm.vm.CreateAlarmViewModel
 import kz.ali.alarmclock.ui.presentation.snooze.SnoozeActivity
 import kz.ali.alarmclock.ui.presentation.vibration.VibrationActivity
 
@@ -54,6 +55,9 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
 
     //Observer pattern
     private var observer: ObserverImp? = null
+
+    //ViewModel
+    private var viewModel: CreateAlarmViewModel? = null
 
     companion object {
         const val KEY = "KEY"
@@ -99,11 +103,10 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         setupCancelButton()
         setupViewPagers()
         setupAlarmDaysButtons()
-        setupButtons()
+        setupViews()
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setupViewPagers() {
         hours?.adapter = adapterForHours
         minutes?.adapter = adapterForMinutes
@@ -233,7 +236,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         return str
     }
 
-    private fun setupButtons(){
+    private fun setupViews(){
         alarmSoundButton?.setOnClickListener{
             startActivity(AlarmSoundActivity.newInstance(this))
         }
@@ -242,6 +245,12 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         }
         vibrationVibration?.setOnClickListener{
             startActivity(VibrationActivity.newInstance(this))
+        }
+    }
+
+    private fun setupSaveButton(){
+        saveButton?.setOnClickListener {
+
         }
     }
 

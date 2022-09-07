@@ -8,11 +8,7 @@
     android:focusable="true"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardElevation="0dp"
-    app:cardMaxElevation="0dp"
-    app:cardCornerRadius="25dp"
-    app:cardUseCompatPadding="true"
-    app:cardPreventCornerOverlap="false">
+    style="@style/CardView.Style">
 
     <RelativeLayout
         android:layout_width="match_parent"

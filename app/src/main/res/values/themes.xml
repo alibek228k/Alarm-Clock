@@ -38,4 +38,13 @@
     <style name="SundayButtonWithoutCircle" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/red</item>
     </style>
+
+    <!--CardView Style-->
+    <style name="CardView.Style" parent="CardView.Light">
+        <item name="cardCornerRadius">@dimen/card_view_corner_radius</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardMaxElevation">0dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
 </resources>

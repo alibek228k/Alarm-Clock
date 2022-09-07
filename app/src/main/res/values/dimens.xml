@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="collapsing_toolbar_height">280dp</dimen>
+    <dimen name="toolbar_height">52dp</dimen>
     <dimen name="margin_horizontal">20dp</dimen>
     <dimen name="alarms_vertical_spacing">15dp</dimen>
     <dimen name="numbers_vertical_spacing">20dp</dimen>
+
+    <!--CardView-->
+    <dimen name="card_view_corner_radius">25dp</dimen>
 </resources>
