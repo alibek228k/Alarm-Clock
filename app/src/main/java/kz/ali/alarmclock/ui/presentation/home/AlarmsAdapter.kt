@@ -47,7 +47,7 @@ class AlarmsAdapter(
         }
     }
 
-    fun addAlarm(alarm: Alarm, notify: Boolean = true) {
+    fun addAlarm(alarm: Alarm) {
         alarms.add(0, alarm)
         if (alarms.contains(alarm)) {
             notifyItemInserted(0)

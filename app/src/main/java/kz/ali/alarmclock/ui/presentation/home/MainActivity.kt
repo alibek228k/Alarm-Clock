@@ -77,11 +77,11 @@ class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
                 "some ringtone",
                 "15:00",
                 listOf(
-                    Alarm.Days.THURSDAY,
+//                    Alarm.Days.THURSDAY,
 //                    Alarm.Days.FRIDAY,
                     Alarm.Days.SATURDAY,
-//                    Alarm.Days.SUNDAY,
-//                    Alarm.Days.MONDAY,
+                    Alarm.Days.SUNDAY,
+                    Alarm.Days.MONDAY,
                     Alarm.Days.TUESDAY,
                     Alarm.Days.WEDNESDAY
                 ),

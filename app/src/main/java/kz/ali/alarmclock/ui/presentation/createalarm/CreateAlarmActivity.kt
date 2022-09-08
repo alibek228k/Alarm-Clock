@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
@@ -17,7 +18,7 @@ import kz.ali.alarmclock.ui.presentation.createalarm.vm.CreateAlarmViewModel
 import kz.ali.alarmclock.ui.presentation.snooze.SnoozeActivity
 import kz.ali.alarmclock.ui.presentation.vibration.VibrationActivity
 
-class CreateAlarmActivity : AppCompatActivity(), Observer {
+class CreateAlarmActivity : AppCompatActivity() {
 
     //UI components
     private var cancelButton: MaterialButton? = null
@@ -52,9 +53,6 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
     private var alarm: Alarm? = null
     private var selectedDays = mutableListOf<Alarm.Days>()
 
-    //Observer pattern
-    private var observer: ObserverImp? = null
-
     //ViewModel
     private var viewModel: CreateAlarmViewModel? = null
 
@@ -70,6 +68,9 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_alarm)
+
+        //viewModel
+        viewModel = ViewModelProvider(this)[CreateAlarmViewModel::class.java]
 
         //inflate Views
         cancelButton = findViewById(R.id.cancelButton)
@@ -96,13 +97,13 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         snoozeButton = findViewById(R.id.snoozeButton)
 
         alarm = intent.getParcelableExtra(KEY)
-        observer = ObserverImp(this)
 
 
         setupCancelButton()
         setupViewPagers()
         setupAlarmDaysButtons()
         setupViews()
+        observeDaysOfTheWeek()
 
     }
 
@@ -193,7 +194,6 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
             }
         }
 
-        observer?.useNotification()
         onCheckedChanged(mondayCheckbox, mondayTextView, dayOfWeek = Alarm.Days.MONDAY)
         onCheckedChanged(tuesdayCheckbox, tuesdayTextView, dayOfWeek = Alarm.Days.TUESDAY)
         onCheckedChanged(wednesdayCheckbox, wednesdayTextView, dayOfWeek = Alarm.Days.WEDNESDAY)
@@ -213,7 +213,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
 
             if (isChecked) {
                 textView?.setTextColor(resources.getColor(R.color.purple_500, null))
-                observer?.useNotification(dayOfWeek, true)
+                viewModel?.notify(dayOfWeek)
             } else {
                 if (isSunday) textView?.setTextColor(
                     resources.getColor(
@@ -221,7 +221,7 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
                         null
                     )
                 ) else textView?.setTextColor(resources.getColor(R.color.fontColor, null))
-                observer?.useNotification(dayOfWeek)
+                viewModel?.notify(dayOfWeek)
             }
         }
     }
@@ -253,52 +253,46 @@ class CreateAlarmActivity : AppCompatActivity(), Observer {
         }
     }
 
-    override fun notify(day: Alarm.Days?, shouldAdd: Boolean) {
-        if (day != null) {
-            if (shouldAdd) {
-                if (!selectedDays.contains(day)) {
-                    selectedDays.add(day)
+    private fun observeDaysOfTheWeek(){
+        viewModel?.getDays()?.observe(this){ day ->
+            if (day != null){
+                if (selectedDays.contains(day)) selectedDays.remove(day) else selectedDays.add(day)
+            }
+            var every = "Every"
+            when (selectedDays.size) {
+                7 -> {
+                    daysText?.text = "$every day"
                 }
-            } else {
-                if (selectedDays.contains(day)) {
-                    selectedDays.remove(day)
+                0 -> {
+                    daysText?.text = getString(R.string.alarms_are_off)
+                }
+                else -> {
+                    if (selectedDays.contains(Alarm.Days.MONDAY)) {
+                        every = "$every Mon,"
+                    }
+                    if (selectedDays.contains(Alarm.Days.TUESDAY)) {
+                        every = "$every Tue,"
+                    }
+                    if (selectedDays.contains(Alarm.Days.WEDNESDAY)) {
+                        every = "$every Wed,"
+                    }
+                    if (selectedDays.contains(Alarm.Days.THURSDAY)) {
+                        every = "$every Thu,"
+                    }
+                    if (selectedDays.contains(Alarm.Days.FRIDAY)) {
+                        every = "$every Fri,"
+                    }
+                    if (selectedDays.contains(Alarm.Days.SATURDAY)) {
+                        every = "$every Sat,"
+                    }
+                    if (selectedDays.contains(Alarm.Days.SUNDAY)) {
+                        every = "$every Sun"
+                    }
+                    every = every.removeLastCharacter()
+                    daysText?.text = every
                 }
             }
-        }
-        var every = "Every"
-        when (selectedDays.size) {
-            7 -> {
-                daysText?.text = "$every day"
-            }
-            0 -> {
-                daysText?.text = getString(R.string.alarms_are_off)
-            }
-            else -> {
-                if (selectedDays.contains(Alarm.Days.MONDAY)) {
-                    every = "$every Mon,"
-                }
-                if (selectedDays.contains(Alarm.Days.TUESDAY)) {
-                    every = "$every Tue,"
-                }
-                if (selectedDays.contains(Alarm.Days.WEDNESDAY)) {
-                    every = "$every Wed,"
-                }
-                if (selectedDays.contains(Alarm.Days.THURSDAY)) {
-                    every = "$every Thu,"
-                }
-                if (selectedDays.contains(Alarm.Days.FRIDAY)) {
-                    every = "$every Fri,"
-                }
-                if (selectedDays.contains(Alarm.Days.SATURDAY)) {
-                    every = "$every Sat,"
-                }
-                if (selectedDays.contains(Alarm.Days.SUNDAY)) {
-                    every = "$every Sun"
-                }
-                every = every.removeLastCharacter()
-                daysText?.text = every
-            }
+
         }
     }
-
 }

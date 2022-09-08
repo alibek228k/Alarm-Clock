@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="94dp"
         android:fontFamily="@font/heebo_light"
         android:text=":"
         android:textColor="@color/fontColor"

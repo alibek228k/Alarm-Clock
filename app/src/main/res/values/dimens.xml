@@ -4,7 +4,7 @@
     <dimen name="toolbar_height">52dp</dimen>
     <dimen name="margin_horizontal">20dp</dimen>
     <dimen name="alarms_vertical_spacing">15dp</dimen>
-    <dimen name="numbers_vertical_spacing">20dp</dimen>
+    <dimen name="numbers_vertical_spacing">10dp</dimen>
 
     <!--CardView-->
     <dimen name="card_view_corner_radius">25dp</dimen>

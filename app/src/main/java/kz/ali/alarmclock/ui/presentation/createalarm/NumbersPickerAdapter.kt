@@ -11,7 +11,7 @@ class NumbersPickerAdapter(
     size: Int,
 ) : RecyclerView.Adapter<NumbersViewHolder>() {
 
-    private val listOfFragments = createAList(size)
+    private val listOfFragments = createList(size)
     private val newList = mutableListOf<Int>()
 
     init {
@@ -26,7 +26,7 @@ class NumbersPickerAdapter(
         return newList.size
     }
 
-    private fun createAList(size: Int): List<Int> {
+    private fun createList(size: Int): List<Int> {
         val list = mutableListOf<Int>()
         if (size >= 0) {
             for (i in 0 until size) {
