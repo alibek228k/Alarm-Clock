@@ -17,8 +17,8 @@ class CreateAlarmViewModel : ViewModel() {
 
     }
 
-    fun notify(day: Alarm.Days?){
-        if (day != null){
+    fun notify(day: Alarm.Days?) {
+        if (day != null) {
             days.postValue(day)
         }
     }

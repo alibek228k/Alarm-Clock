@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
             Alarm(
                 0,
                 "Wake up",
-                "some ringtone",
+                Alarm.Ringtone(true, "some name"),
                 "15:00",
                 listOf(
 //                    Alarm.Days.THURSDAY,

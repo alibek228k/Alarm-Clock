@@ -6,9 +6,13 @@ import android.os.Bundle
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.viewpager2.widget.ViewPager2
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import kz.ali.alarmclock.R
 import kz.ali.alarmclock.domain.model.Alarm
@@ -17,14 +21,16 @@ import kz.ali.alarmclock.ui.presentation.createalarm.itemdecoration.NumbersPicke
 import kz.ali.alarmclock.ui.presentation.createalarm.vm.CreateAlarmViewModel
 import kz.ali.alarmclock.ui.presentation.snooze.SnoozeActivity
 import kz.ali.alarmclock.ui.presentation.vibration.VibrationActivity
+import kz.ali.alarmclock.utils.removeLastCharacter
+
 
 class CreateAlarmActivity : AppCompatActivity() {
 
     //UI components
     private var cancelButton: MaterialButton? = null
     private var saveButton: MaterialButton? = null
-    private var hours: ViewPager2? = null
-    private var minutes: ViewPager2? = null
+    private var hours: RecyclerView? = null
+    private var minutes: RecyclerView? = null
     private var mondayTextView: MaterialTextView? = null
     private var tuesdayTextView: MaterialTextView? = null
     private var wednesdayTextView: MaterialTextView? = null
@@ -43,11 +49,18 @@ class CreateAlarmActivity : AppCompatActivity() {
     private var snoozeButton: RelativeLayout? = null
     private var alarmSoundButton: RelativeLayout? = null
     private var vibrationVibration: RelativeLayout? = null
+    private var alarmSoundSwitch: SwitchMaterial? = null
+    private var vibrationSwitch: SwitchMaterial? = null
+    private var snoozeSwitch: SwitchMaterial? = null
+    private var alarmName: TextInputEditText? = null
+    private var soundName: MaterialTextView? = null
+    private var vibrationName: MaterialTextView? = null
+    private var snoozeVolume: MaterialTextView? = null
 
     //RecyclerView adapters
 
-    private var adapterForHours: NumbersPickerAdapter? = NumbersPickerAdapter(24)
-    private var adapterForMinutes: NumbersPickerAdapter? = NumbersPickerAdapter(60)
+    private var adapterForHours: NumbersPickerAdapter? = NumbersPickerAdapter(24, this)
+    private var adapterForMinutes: NumbersPickerAdapter? = NumbersPickerAdapter(60, this)
 
     //Alarm model
     private var alarm: Alarm? = null
@@ -68,6 +81,7 @@ class CreateAlarmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_alarm)
+
 
         //viewModel
         viewModel = ViewModelProvider(this)[CreateAlarmViewModel::class.java]
@@ -95,56 +109,60 @@ class CreateAlarmActivity : AppCompatActivity() {
         alarmSoundButton = findViewById(R.id.alarmSoundButton)
         vibrationVibration = findViewById(R.id.vibrationButton)
         snoozeButton = findViewById(R.id.snoozeButton)
+        alarmSoundSwitch = findViewById(R.id.alarmSoundSwitch)
+        vibrationSwitch = findViewById(R.id.vibrationSwitch)
+        snoozeSwitch = findViewById(R.id.snoozeSwitch)
+        alarmName = findViewById(R.id.alarmName)
+        soundName = findViewById(R.id.soundName)
+        vibrationName = findViewById(R.id.vibrationName)
+        snoozeVolume = findViewById(R.id.snoozeVolume)
 
         alarm = intent.getParcelableExtra(KEY)
 
-
         setupCancelButton()
-        setupViewPagers()
+        setupRecyclerViews()
         setupAlarmDaysButtons()
         setupViews()
+        setupSwitches()
         observeDaysOfTheWeek()
-
     }
 
-    private fun setupViewPagers() {
-        hours?.adapter = adapterForHours
-        minutes?.adapter = adapterForMinutes
-        hours?.addItemDecoration(NumbersPickerItemDecorator(this))
-        minutes?.addItemDecoration(NumbersPickerItemDecorator(this))
-        hours?.currentItem = 1
-        minutes?.currentItem = 1
-        onNumberPickerChangeCallback(26, hours)
-        onNumberPickerChangeCallback(62, minutes)
+    private fun setupRecyclerViews() {
+//        val smoothScrollForHours = SmoothScrollToCenter(this@CreateAlarmActivity, adapterForHours)
+//        if (hours != null){
+//            smoothScrollForHours.addSmoothScrollToCenter(hours!!)
+//        }
+        hours?.apply {
+            addItemDecoration(NumbersPickerItemDecorator(this@CreateAlarmActivity))
+            layoutManager =
+                LinearLayoutManager(this@CreateAlarmActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = adapterForHours
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+            scrollToPosition(Int.MAX_VALUE / 2 - 16)
+        }
+        minutes?.apply {
+            addItemDecoration(NumbersPickerItemDecorator(this@CreateAlarmActivity))
+            layoutManager =
+                LinearLayoutManager(this@CreateAlarmActivity, LinearLayoutManager.VERTICAL, false)
+            adapter = adapterForMinutes
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+            scrollToPosition(Int.MAX_VALUE / 2 - 4)
+        }
+
+//        val smoothScrollForMinutes =
+//            SmoothScrollToCenter(this@CreateAlarmActivity, adapterForMinutes)
+//        if (minutes != null) {
+//            smoothScrollForMinutes.addSmoothScrollToCenter(minutes!!)
+//        }
+
     }
 
     private fun setupCancelButton() {
         cancelButton?.setOnClickListener {
             onBackPressed()
         }
-    }
-
-    private fun onNumberPickerChangeCallback(listSize: Int, pager: ViewPager2?) {
-        pager?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-
-                if (state == ViewPager2.SCROLL_STATE_IDLE) {
-                    when (pager.currentItem) {
-                        listSize - 1 -> pager.setCurrentItem(1, false)
-                        0 -> pager.setCurrentItem(listSize - 2, false)
-                    }
-                }
-            }
-
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-
-                if (position != 0 && position != listSize - 1) {
-
-                }
-            }
-        })
     }
 
     private fun setupAlarmDaysButtons() {
@@ -194,45 +212,13 @@ class CreateAlarmActivity : AppCompatActivity() {
             }
         }
 
-        onCheckedChanged(mondayCheckbox, mondayTextView, dayOfWeek = Alarm.Days.MONDAY)
-        onCheckedChanged(tuesdayCheckbox, tuesdayTextView, dayOfWeek = Alarm.Days.TUESDAY)
-        onCheckedChanged(wednesdayCheckbox, wednesdayTextView, dayOfWeek = Alarm.Days.WEDNESDAY)
-        onCheckedChanged(thursdayCheckbox, thursdayTextView, dayOfWeek = Alarm.Days.THURSDAY)
-        onCheckedChanged(fridayCheckbox, fridayTextView, dayOfWeek = Alarm.Days.FRIDAY)
-        onCheckedChanged(saturdayCheckbox, saturdayTextView, dayOfWeek = Alarm.Days.SATURDAY)
-        onCheckedChanged(sundayCheckbox, sundayTextView, true, dayOfWeek = Alarm.Days.SUNDAY)
-    }
-
-    private fun onCheckedChanged(
-        checkBox: MaterialCheckBox?,
-        textView: MaterialTextView?,
-        isSunday: Boolean = false,
-        dayOfWeek: Alarm.Days,
-    ) {
-        checkBox?.setOnCheckedChangeListener { _, isChecked ->
-
-            if (isChecked) {
-                textView?.setTextColor(resources.getColor(R.color.purple_500, null))
-                viewModel?.notify(dayOfWeek)
-            } else {
-                if (isSunday) textView?.setTextColor(
-                    resources.getColor(
-                        R.color.red,
-                        null
-                    )
-                ) else textView?.setTextColor(resources.getColor(R.color.fontColor, null))
-                viewModel?.notify(dayOfWeek)
-            }
-        }
-    }
-
-    private fun String.removeLastCharacter(): String {
-        var str = this
-        if (str[str.length - 1] == ',') {
-            str = str.dropLast(1)
-            return str
-        }
-        return str
+        dayStateChanged(mondayCheckbox, mondayTextView, dayOfWeek = Alarm.Days.MONDAY)
+        dayStateChanged(tuesdayCheckbox, tuesdayTextView, dayOfWeek = Alarm.Days.TUESDAY)
+        dayStateChanged(wednesdayCheckbox, wednesdayTextView, dayOfWeek = Alarm.Days.WEDNESDAY)
+        dayStateChanged(thursdayCheckbox, thursdayTextView, dayOfWeek = Alarm.Days.THURSDAY)
+        dayStateChanged(fridayCheckbox, fridayTextView, dayOfWeek = Alarm.Days.FRIDAY)
+        dayStateChanged(saturdayCheckbox, saturdayTextView, dayOfWeek = Alarm.Days.SATURDAY)
+        dayStateChanged(sundayCheckbox, sundayTextView, true, dayOfWeek = Alarm.Days.SUNDAY)
     }
 
     private fun setupViews() {
@@ -245,6 +231,67 @@ class CreateAlarmActivity : AppCompatActivity() {
         vibrationVibration?.setOnClickListener {
             startActivity(VibrationActivity.newInstance(this))
         }
+        if (alarm?.name != null) {
+            alarmName?.setText(alarm?.name)
+        }
+        if (alarm?.ringtone?.isTurnedOn != null) {
+            alarmSoundSwitch?.isChecked = alarm?.ringtone?.isTurnedOn!!
+            if (alarm?.ringtone?.isTurnedOn!!) {
+                soundName?.text = alarm?.ringtone?.ringtoneUri
+            } else {
+                snoozeVolume?.text = getString(R.string.off)
+            }
+        }
+        if (alarm?.snooze?.isTurnedOn != null) {
+            snoozeSwitch?.isChecked = alarm?.snooze?.isTurnedOn!!
+            if (alarm?.snooze?.isTurnedOn!!) {
+                snoozeVolume?.text = when (alarm?.snooze?.interval) {
+                    Alarm.Snooze.Interval.FIVE -> "5 times"
+                    Alarm.Snooze.Interval.TEN -> "10 times"
+                    else -> "off"
+                }
+            } else {
+                snoozeVolume?.text = getString(R.string.off)
+            }
+        } else {
+            snoozeVolume?.text = getString(R.string.snooze_volume)
+        }
+        if (alarm?.vibration?.isTurnedOn != null) {
+            vibrationSwitch?.isChecked = alarm?.vibration?.isTurnedOn!!
+            if (alarm?.vibration?.isTurnedOn!!) {
+                vibrationName?.text = alarm?.vibration?.vibrationUri
+            } else {
+                vibrationName?.text = getString(R.string.off)
+            }
+        }
+    }
+
+    private fun setupSwitches() {
+        alarmSoundSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                soundName?.text = alarm?.ringtone?.ringtoneUri
+            } else {
+                soundName?.text = getString(R.string.off)
+            }
+        }
+        vibrationSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                vibrationName?.text = alarm?.vibration?.vibrationUri
+            } else {
+                vibrationName?.text = getString(R.string.off)
+            }
+        }
+        snoozeSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                snoozeVolume?.text = when (alarm?.snooze?.interval) {
+                    Alarm.Snooze.Interval.FIVE -> "5 times"
+                    Alarm.Snooze.Interval.TEN -> "10 times"
+                    else -> "Off"
+                }
+            } else {
+                snoozeVolume?.text = getString(R.string.off)
+            }
+        }
     }
 
     private fun setupSaveButton() {
@@ -253,9 +300,9 @@ class CreateAlarmActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeDaysOfTheWeek(){
-        viewModel?.getDays()?.observe(this){ day ->
-            if (day != null){
+    private fun observeDaysOfTheWeek() {
+        viewModel?.getDays()?.observe(this) { day ->
+            if (day != null) {
                 if (selectedDays.contains(day)) selectedDays.remove(day) else selectedDays.add(day)
             }
             var every = "Every"
@@ -293,6 +340,28 @@ class CreateAlarmActivity : AppCompatActivity() {
                 }
             }
 
+        }
+    }
+
+    private fun dayStateChanged(
+        checkBox: MaterialCheckBox?,
+        textView: MaterialTextView?,
+        isSunday: Boolean = false,
+        dayOfWeek: Alarm.Days,
+    ) {
+        checkBox?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                textView?.setTextColor(resources.getColor(R.color.purple_500, null))
+                viewModel?.notify(dayOfWeek)
+            } else {
+                if (isSunday) textView?.setTextColor(
+                    resources.getColor(
+                        R.color.red,
+                        null
+                    )
+                ) else textView?.setTextColor(resources.getColor(R.color.fontColor, null))
+                viewModel?.notify(dayOfWeek)
+            }
         }
     }
 }

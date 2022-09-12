@@ -22,7 +22,7 @@ class AlarmSoundActivity : AppCompatActivity() {
     private var toolbar: MaterialToolbar? = null
     private var alarmSoundSwitch: SwitchMaterial? = null
     private var selectRingtoneView: CardView? = null
-    private var getRingtone = registerForActivityResult(PickRingtone()) {
+    private var getContract = registerForActivityResult(RingtoneContract()) {
 
     }
 
@@ -47,7 +47,7 @@ class AlarmSoundActivity : AppCompatActivity() {
 
     private fun setupSelectRingtoneView() {
         selectRingtoneView?.setOnClickListener {
-            getRingtone.launch(0)
+            getContract.launch(0)
         }
     }
 }

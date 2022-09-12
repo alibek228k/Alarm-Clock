@@ -7,11 +7,11 @@
     android:background="@color/ghost_white"
     tools:context=".ui.presentation.createalarm.CreateAlarmActivity">
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hours"
         android:layout_width="75dp"
-        android:layout_height="238dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="300dp"
+        android:paddingVertical="30dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toStartOf="@+id/materialTextView"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="110dp"
         android:fontFamily="@font/heebo_light"
         android:text=":"
         android:textColor="@color/fontColor"
@@ -32,11 +32,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager2.widget.ViewPager2
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/minutes"
-        android:layout_width="72dp"
-        android:layout_height="238dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="75dp"
+        android:layout_height="300dp"
+        android:paddingVertical="30dp"
         android:orientation="vertical"
         app:layout_constraintStart_toEndOf="@+id/materialTextView"
         app:layout_constraintTop_toTopOf="parent"
@@ -397,8 +397,8 @@
                             android:layout_height="wrap_content"
                             android:textSize="15sp"
                             android:textColor="@color/purple_500"
-                            android:text="@string/snooze_volume"
-                            tools:text="Sunlight"/>
+                            android:text="dsagds"
+                            tools:text="@string/snooze_volume"/>
 
                     </LinearLayout>
 

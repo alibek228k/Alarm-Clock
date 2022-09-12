@@ -8,7 +8,7 @@ import kz.ali.alarmclock.R
 
 class NumbersPickerItemDecorator(
     context: Context,
-    private val verticalSpacing: Int = context.resources.getDimensionPixelOffset(R.dimen.numbers_vertical_spacing),
+    private val verticalSpacing: Int = context.resources.getDimensionPixelOffset(R.dimen.time_element_item),
 ) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(

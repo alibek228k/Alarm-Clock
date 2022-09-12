@@ -18,4 +18,5 @@
     <string name="snooze">Snooze</string>
     <string name="snooze_volume">5 minutes, 3 times</string>
     <string name="ringtone">Ringtone</string>
+    <string name="off">Off</string>
 </resources>

@@ -5,6 +5,10 @@
     <dimen name="margin_horizontal">20dp</dimen>
     <dimen name="alarms_vertical_spacing">15dp</dimen>
     <dimen name="numbers_vertical_spacing">10dp</dimen>
+    <dimen name="card_margin">42dp</dimen>
+    <dimen name="peek_offset_margin">26dp</dimen>
+    <dimen name="item_height">75dp</dimen>
+    <dimen name="time_element_item">10dp</dimen>
 
     <!--CardView-->
     <dimen name="card_view_corner_radius">25dp</dimen>

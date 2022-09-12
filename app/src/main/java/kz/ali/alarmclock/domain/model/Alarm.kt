@@ -7,13 +7,19 @@ import kotlinx.parcelize.Parcelize
 data class Alarm(
     val id: Int,
     var name: String? = null,
-    var ringtone: String,
+    var ringtone: Ringtone,
     var time: String,
     var days: List<Days>,
-    var vibration: Boolean = true,
+    var vibration: Vibration = Vibration(true, "some name or uri of vibration"),
     var snooze: Snooze? = null,
     var isActive: Boolean = false,
 ) : Parcelable {
+
+    @Parcelize
+    class Vibration(var isTurnedOn: Boolean, var vibrationUri: String) : Parcelable
+
+    @Parcelize
+    class Ringtone(var isTurnedOn: Boolean, var ringtoneUri: String) : Parcelable
 
     enum class Days {
         MONDAY,
@@ -27,8 +33,9 @@ data class Alarm(
 
     @Parcelize
     data class Snooze(
-        private var interval: Interval,
-        private var repeat: Repeat,
+        var interval: Interval,
+        var repeat: Repeat,
+        var isTurnedOn: Boolean,
     ) : Parcelable {
 
         enum class Interval {

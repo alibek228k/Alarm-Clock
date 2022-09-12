@@ -1,5 +1,6 @@
 package kz.ali.alarmclock.ui.presentation.createalarm
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,21 +10,13 @@ import kz.ali.alarmclock.R
 
 class NumbersPickerAdapter(
     size: Int,
+    val context: Context,
 ) : RecyclerView.Adapter<NumbersViewHolder>() {
 
     private val listOfFragments = createList(size)
-    private val newList = mutableListOf<Int>()
-
-    init {
-        newList.apply {
-            add(listOfFragments.last())
-            addAll(listOfFragments)
-            add(listOfFragments.first())
-        }
-    }
 
     override fun getItemCount(): Int {
-        return newList.size
+        return Int.MAX_VALUE
     }
 
     private fun createList(size: Int): List<Int> {
@@ -43,14 +36,20 @@ class NumbersPickerAdapter(
     }
 
     override fun onBindViewHolder(holder: NumbersViewHolder, position: Int) {
-        holder.bind(newList[position])
+        if (listOfFragments.isEmpty()) {
+            holder.bind(null)
+        } else {
+            val number = listOfFragments[position % listOfFragments.size]
+            holder.bind(listOfFragments[number])
+            println(position)
+        }
     }
 }
 
 class NumbersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val number: MaterialTextView = itemView.findViewById(R.id.number)
 
-    fun bind(value: Int) {
+    fun bind(value: Int?) {
         number.text = if (value in 0..9) "0$value" else value.toString()
     }
 }
