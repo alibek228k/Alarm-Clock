@@ -1,4 +1,4 @@
-package kz.ali.alarmclock.ui.presentation.createalarm
+package kz.ali.alarmclock.ui.presentation.createalarm.recyclerview
 
 import android.content.Context
 import android.view.LayoutInflater

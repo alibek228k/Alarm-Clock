@@ -1,4 +1,4 @@
-package kz.ali.alarmclock.ui.presentation.createalarm.vm
+package kz.ali.alarmclock.ui.presentation.createalarm.recyclerview.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

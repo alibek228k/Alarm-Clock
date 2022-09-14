@@ -18,10 +18,13 @@ import kz.ali.alarmclock.R
 import kz.ali.alarmclock.domain.model.Alarm
 import kz.ali.alarmclock.ui.presentation.alarmsound.AlarmSoundActivity
 import kz.ali.alarmclock.ui.presentation.createalarm.itemdecoration.NumbersPickerItemDecorator
-import kz.ali.alarmclock.ui.presentation.createalarm.vm.CreateAlarmViewModel
+import kz.ali.alarmclock.ui.presentation.createalarm.recyclerview.NumbersPickerAdapter
+import kz.ali.alarmclock.ui.presentation.createalarm.recyclerview.vm.CreateAlarmViewModel
 import kz.ali.alarmclock.ui.presentation.snooze.SnoozeActivity
 import kz.ali.alarmclock.ui.presentation.vibration.VibrationActivity
 import kz.ali.alarmclock.utils.removeLastCharacter
+import kotlin.math.abs
+import kotlin.math.sign
 
 
 class CreateAlarmActivity : AppCompatActivity() {
@@ -71,6 +74,7 @@ class CreateAlarmActivity : AppCompatActivity() {
 
     companion object {
         const val KEY = "KEY"
+        const val MAX_VELOCITY_Y = 4500
         fun newInstance(context: Context, alarm: Alarm? = null): Intent {
             val intent = Intent(context, CreateAlarmActivity::class.java)
             if (alarm != null) intent.putExtra(KEY, alarm)
@@ -128,10 +132,6 @@ class CreateAlarmActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerViews() {
-//        val smoothScrollForHours = SmoothScrollToCenter(this@CreateAlarmActivity, adapterForHours)
-//        if (hours != null){
-//            smoothScrollForHours.addSmoothScrollToCenter(hours!!)
-//        }
         hours?.apply {
             addItemDecoration(NumbersPickerItemDecorator(this@CreateAlarmActivity))
             layoutManager =
@@ -140,6 +140,18 @@ class CreateAlarmActivity : AppCompatActivity() {
             val snapHelper = LinearSnapHelper()
             snapHelper.attachToRecyclerView(this)
             scrollToPosition(Int.MAX_VALUE / 2 - 16)
+            onFlingListener = object : RecyclerView.OnFlingListener() {
+                override fun onFling(velocityX: Int, velocityY: Int): Boolean {
+                    var velocity = velocityY
+                    if (abs(velocity) > MAX_VELOCITY_Y) {
+                        velocity = MAX_VELOCITY_Y * sign(velocityY.toDouble()).toInt()
+                        this@apply.fling(velocityX, velocity)
+                        return true
+                    }
+
+                    return false
+                }
+            }
         }
         minutes?.apply {
             addItemDecoration(NumbersPickerItemDecorator(this@CreateAlarmActivity))
@@ -149,14 +161,19 @@ class CreateAlarmActivity : AppCompatActivity() {
             val snapHelper = LinearSnapHelper()
             snapHelper.attachToRecyclerView(this)
             scrollToPosition(Int.MAX_VALUE / 2 - 4)
+            println("Scroll position :$scrollY")
+            onFlingListener = object : RecyclerView.OnFlingListener() {
+                override fun onFling(velocityX: Int, velocityY: Int): Boolean {
+                    var velocity = velocityY
+                    if (abs(velocity) > MAX_VELOCITY_Y) {
+                        velocity = MAX_VELOCITY_Y * sign(velocityY.toDouble()).toInt()
+                        this@apply.fling(velocityX, velocity)
+                        return true
+                    }
+                    return false
+                }
+            }
         }
-
-//        val smoothScrollForMinutes =
-//            SmoothScrollToCenter(this@CreateAlarmActivity, adapterForMinutes)
-//        if (minutes != null) {
-//            smoothScrollForMinutes.addSmoothScrollToCenter(minutes!!)
-//        }
-
     }
 
     private fun setupCancelButton() {
