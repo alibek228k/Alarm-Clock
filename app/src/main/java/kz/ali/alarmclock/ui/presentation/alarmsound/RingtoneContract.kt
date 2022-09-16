@@ -15,9 +15,8 @@ class RingtoneContract : ActivityResultContract<Int, Uri?>() {
 
 
     override fun parseResult(resultCode: Int, intent: Intent?): Uri? {
-        if (resultCode != Activity.RESULT_OK) {
-            return null
-        }
-        return intent?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+        if (intent == null) return null
+        if (resultCode != Activity.RESULT_OK) return null
+        return intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
     }
 }

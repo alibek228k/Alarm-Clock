@@ -12,18 +12,25 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import kz.ali.alarmclock.R
 import kz.ali.alarmclock.domain.model.Alarm
+import kz.ali.alarmclock.ui.presentation.alarmsound.ringtonemanager.RingtoneManager
 import kz.ali.alarmclock.ui.presentation.createalarm.CreateAlarmActivity
 import kz.ali.alarmclock.ui.presentation.home.itemdecoration.AlarmsAdapterItemDecorator
 import kz.ali.alarmclock.ui.presentation.home.vm.MainViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
 
+    //UI Components
     private var toolbar: MaterialToolbar? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var recyclerView: RecyclerView? = null
     private var adapter: AlarmsAdapter? = null
     private var appbarLayout: AppBarLayout? = null
     private var viewModel: MainViewModel? = null
+
+    //Ringtone manager
+    private var ringtoneManager = RingtoneManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +77,17 @@ class MainActivity : AppCompatActivity(), AlarmsAdapter.Callback {
     }
 
     private fun addAlarm() {
+        val calendar = Calendar.getInstance()
+        val timeInMilliseconds = Date()
+        val formatter = SimpleDateFormat("HH:mm")
+        calendar.timeInMillis = timeInMilliseconds.time
         adapter?.addAlarm(
             Alarm(
                 0,
+                calendar,
                 "Wake up",
-                Alarm.Ringtone(true, "some name"),
-                "15:00",
+                Alarm.Ringtone(true, ringtoneManager.getDefaultRingtoneUri()),
+                formatter.format(calendar.time),
                 listOf(
 //                    Alarm.Days.THURSDAY,
 //                    Alarm.Days.FRIDAY,

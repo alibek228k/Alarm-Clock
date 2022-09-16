@@ -2,10 +2,14 @@ package kz.ali.alarmclock.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.util.*
+
+const val DEFAULT_VOLUME = 0.66667f
 
 @Parcelize
 data class Alarm(
     val id: Int,
+    var nextTime: Calendar,
     var name: String? = null,
     var ringtone: Ringtone,
     var time: String,
@@ -15,11 +19,17 @@ data class Alarm(
     var isActive: Boolean = false,
 ) : Parcelable {
 
+
     @Parcelize
     class Vibration(var isTurnedOn: Boolean, var vibrationUri: String) : Parcelable
 
     @Parcelize
-    class Ringtone(var isTurnedOn: Boolean, var ringtoneUri: String) : Parcelable
+    class Ringtone(
+        var isTurnedOn: Boolean,
+        var ringtoneUri: String,
+        var volume: Float = DEFAULT_VOLUME,
+    ) :
+        Parcelable
 
     enum class Days {
         MONDAY,

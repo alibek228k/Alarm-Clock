@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import kz.ali.alarmclock.R
 import kz.ali.alarmclock.domain.model.Alarm
-import kz.ali.alarmclock.ui.presentation.alarmsound.AlarmSoundActivity
+import kz.ali.alarmclock.ui.presentation.alarmsound.ringtonemanager.RingtoneManager
 import kz.ali.alarmclock.ui.presentation.createalarm.itemdecoration.NumbersPickerItemDecorator
 import kz.ali.alarmclock.ui.presentation.createalarm.recyclerview.NumbersPickerAdapter
 import kz.ali.alarmclock.ui.presentation.createalarm.recyclerview.vm.CreateAlarmViewModel
@@ -61,9 +61,11 @@ class CreateAlarmActivity : AppCompatActivity() {
     private var snoozeVolume: MaterialTextView? = null
 
     //RecyclerView adapters
-
     private var adapterForHours: NumbersPickerAdapter? = NumbersPickerAdapter(24, this)
     private var adapterForMinutes: NumbersPickerAdapter? = NumbersPickerAdapter(60, this)
+
+    //RingtoneManager
+    private val ringtoneManager = RingtoneManager(this)
 
     //Alarm model
     private var alarm: Alarm? = null
@@ -72,9 +74,18 @@ class CreateAlarmActivity : AppCompatActivity() {
     //ViewModel
     private var viewModel: CreateAlarmViewModel? = null
 
+    //ActivityResultAPI
+    private var getRingtoneContract = registerForActivityResult(AlarmSoundContract()) {
+        if (it != null) {
+            alarm?.ringtone = it
+            soundName?.text = ringtoneManager.getTitleOfRingtone(it.ringtoneUri)
+
+        }
+    }
+
     companion object {
-        const val KEY = "KEY"
         const val MAX_VELOCITY_Y = 4500
+        const val KEY = "KEY"
         fun newInstance(context: Context, alarm: Alarm? = null): Intent {
             val intent = Intent(context, CreateAlarmActivity::class.java)
             if (alarm != null) intent.putExtra(KEY, alarm)
@@ -145,7 +156,7 @@ class CreateAlarmActivity : AppCompatActivity() {
                     var velocity = velocityY
                     if (abs(velocity) > MAX_VELOCITY_Y) {
                         velocity = MAX_VELOCITY_Y * sign(velocityY.toDouble()).toInt()
-                        this@apply.fling(velocityX, velocity)
+                        snapHelper.onFling(velocityX, velocity)
                         return true
                     }
 
@@ -161,13 +172,12 @@ class CreateAlarmActivity : AppCompatActivity() {
             val snapHelper = LinearSnapHelper()
             snapHelper.attachToRecyclerView(this)
             scrollToPosition(Int.MAX_VALUE / 2 - 4)
-            println("Scroll position :$scrollY")
             onFlingListener = object : RecyclerView.OnFlingListener() {
                 override fun onFling(velocityX: Int, velocityY: Int): Boolean {
                     var velocity = velocityY
                     if (abs(velocity) > MAX_VELOCITY_Y) {
                         velocity = MAX_VELOCITY_Y * sign(velocityY.toDouble()).toInt()
-                        this@apply.fling(velocityX, velocity)
+                        snapHelper.onFling(velocityX, velocity)
                         return true
                     }
                     return false
@@ -240,7 +250,11 @@ class CreateAlarmActivity : AppCompatActivity() {
 
     private fun setupViews() {
         alarmSoundButton?.setOnClickListener {
-            startActivity(AlarmSoundActivity.newInstance(this))
+            if (alarm?.ringtone == null) {
+                getRingtoneContract.launch(alarm?.ringtone)
+            } else {
+                getRingtoneContract.launch(alarm?.ringtone)
+            }
         }
         snoozeButton?.setOnClickListener {
             startActivity(SnoozeActivity.newInstance(this))
@@ -254,7 +268,7 @@ class CreateAlarmActivity : AppCompatActivity() {
         if (alarm?.ringtone?.isTurnedOn != null) {
             alarmSoundSwitch?.isChecked = alarm?.ringtone?.isTurnedOn!!
             if (alarm?.ringtone?.isTurnedOn!!) {
-                soundName?.text = alarm?.ringtone?.ringtoneUri
+                soundName?.text = ringtoneManager.getTitleOfRingtone(alarm?.ringtone?.ringtoneUri)
             } else {
                 snoozeVolume?.text = getString(R.string.off)
             }
@@ -286,7 +300,7 @@ class CreateAlarmActivity : AppCompatActivity() {
     private fun setupSwitches() {
         alarmSoundSwitch?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                soundName?.text = alarm?.ringtone?.ringtoneUri
+                soundName?.text = ringtoneManager.getTitleOfRingtone(alarm?.ringtone?.ringtoneUri)
             } else {
                 soundName?.text = getString(R.string.off)
             }

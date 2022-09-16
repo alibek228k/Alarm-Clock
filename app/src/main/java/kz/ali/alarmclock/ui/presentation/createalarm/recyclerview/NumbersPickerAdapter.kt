@@ -41,7 +41,6 @@ class NumbersPickerAdapter(
         } else {
             val number = listOfFragments[position % listOfFragments.size]
             holder.bind(listOfFragments[number])
-            println(position)
         }
     }
 }
