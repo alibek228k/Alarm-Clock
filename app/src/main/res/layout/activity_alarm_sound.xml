@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/isRingtonesEnabledView"
+        android:id="@+id/isRingtonesEnabledCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/CardView.Style"
@@ -32,13 +32,13 @@
             android:layout_marginHorizontal="@dimen/margin_horizontal">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/offTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentBottom="true"
                 android:fontFamily="@font/heebo_medium"
                 android:gravity="center"
-                android:text="Off"
                 android:textSize="20sp"
                 tools:text="Off" />
 
@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/isRingtonesEnabledView">
+        app:layout_constraintTop_toBottomOf="@+id/isRingtonesEnabledCardView">
 
         <RelativeLayout
             android:layout_width="match_parent"

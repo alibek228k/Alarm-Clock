@@ -1,5 +1,6 @@
 package kz.ali.alarmclock.ui.presentation.alarmsound
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
@@ -10,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
@@ -38,18 +40,22 @@ class AlarmSoundActivity : AppCompatActivity() {
     private var ringtoneManager = RingtoneManager(this)
     private var audioManager: AudioManager? = null
 
+    //ViewModel
+    private var alarmSoundViewModel: AlarmSoundViewModel? = null
+
     //UI components
     private var toolbar: MaterialToolbar? = null
     private var alarmSoundSwitch: SwitchMaterial? = null
     private var selectRingtoneView: CardView? = null
     private var soundName: MaterialTextView? = null
     private var seekBar: AppCompatSeekBar? = null
+    private var isRingtonesEnabledCardView: CardView? = null
+    private var offTextView: MaterialTextView? = null
 
     // ActivityResultAPI
     private var getContract = registerForActivityResult(RingtoneContract()) {
         ringtone?.ringtoneUri = it.toString()
         setupRingtone(ringtoneManager.getTitleOfRingtone(it.toString()))
-        setResult(RESULT_OK, intent)
     }
 
     //CurrentAlarmRingtone
@@ -61,16 +67,20 @@ class AlarmSoundActivity : AppCompatActivity() {
         //Initialize ringtone
         ringtone = intent.getParcelableExtra(RINGTONE_EXTRA)
         audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
-
+        alarmSoundViewModel = ViewModelProvider(this)[AlarmSoundViewModel::class.java]
+        //Setting result of activity result API
+        setResult(RESULT_OK, intent)
         toolbar = findViewById(R.id.toolbar)
         alarmSoundSwitch = findViewById(R.id.alarmSoundSwitch)
         selectRingtoneView = findViewById(R.id.selectRingtoneView)
         soundName = findViewById(R.id.soundName)
         seekBar = findViewById(R.id.seekBar)
+        isRingtonesEnabledCardView = findViewById(R.id.isRingtonesEnabledCardView)
         setupActionBar()
         setupSelectRingtoneView()
         setupRingtone()
         setupSeekBar()
+        observeAlarmAvailability()
     }
 
     private fun setupActionBar() {
@@ -82,6 +92,9 @@ class AlarmSoundActivity : AppCompatActivity() {
     }
 
     private fun setupSelectRingtoneView() {
+        if (ringtone?.isTurnedOn != null){
+            alarmSoundViewModel?.isRingtoneAvailable(ringtone?.isTurnedOn!!)
+        }
         selectRingtoneView?.setOnClickListener {
             getContract.launch(0)
         }
@@ -126,6 +139,21 @@ class AlarmSoundActivity : AppCompatActivity() {
         }
         if (ringtone?.ringtoneUri != null) {
             soundName?.text = ringtoneManager.getTitleOfRingtone(ringtone?.ringtoneUri)
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun observeAlarmAvailability(){
+        alarmSoundViewModel?.getRingtoneAvailability()?.observe(this){
+            if(it == true){
+                isRingtonesEnabledCardView?.background = resources?.getDrawable(R.color.purple_500, null)
+                offTextView?.text = getString(R.string.on)
+                alarmSoundSwitch?.isChecked = it
+            }else if (it == false){
+                offTextView?.text = getString(R.string.off)
+                isRingtonesEnabledCardView?.background = resources?.getDrawable(R.color.white, null)
+                alarmSoundSwitch?.isChecked = it
+            }
         }
     }
 }
